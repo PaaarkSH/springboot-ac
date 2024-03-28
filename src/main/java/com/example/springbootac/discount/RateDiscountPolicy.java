@@ -4,10 +4,9 @@ import com.example.springbootac.member.Grade;
 import com.example.springbootac.member.Member;
 
 public class RateDiscountPolicy implements DiscountPolicy {
-    
     private int discountPercent = 10;
 
-    @Override{
+    @Override
     public int discount(Member member, int price){
 
         if (member.getGrade() == Grade.VIP){
@@ -16,5 +15,4 @@ public class RateDiscountPolicy implements DiscountPolicy {
             return 0;
         }
     }
-
 }
