@@ -2,6 +2,7 @@ package com.example.springbootac;
 
 import com.example.springbootac.discount.DiscountPolicy;
 import com.example.springbootac.discount.FixDiscountPolicy;
+import com.example.springbootac.discount.RateDiscountPolicy;
 import com.example.springbootac.member.MemberService;
 import com.example.springbootac.member.MemberServiceImpl;
 import com.example.springbootac.member.MemoryMemberRepository;
@@ -22,6 +23,7 @@ public class AppConfig {
     }
 
     public DiscountPolicy discountPolicy() {
-        return new FixDiscountPolicy();
+//        return new FixDiscountPolicy();
+        return new RateDiscountPolicy();
     }
 }
