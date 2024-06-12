@@ -1,5 +1,7 @@
 package com.example.springbootac;
 
+import com.example.springbootac.member.MemoryMemberRepository;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.FilterType;
@@ -12,4 +14,9 @@ import org.springframework.context.annotation.FilterType;
         // , basePackages = "com.example.springbootac"
 )
 public class AutoAppConfig  {
+
+    @Bean(name = "memoryMemberRepository")
+    MemoryMemberRepository memoryMemberRepository() {
+        return new MemoryMemberRepository();
+    }
 }

@@ -6,7 +6,6 @@ import com.example.springbootac.discount.DiscountPolicy;
 // import com.example.springbootac.discount.RateDiscountPolicy;
 import com.example.springbootac.member.Member;
 import com.example.springbootac.member.MemberRepository;
-import com.example.springbootac.member.MemoryMemberRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -17,6 +16,8 @@ public class OrderServiceImpl implements OrderService{
 
     @Autowired
     public OrderServiceImpl(MemberRepository memberRepository, DiscountPolicy discountPolicy) {
+        System.out.println("memberRepository = " + memberRepository);
+        System.out.println("discountPolicy = " + discountPolicy);
         this.memberRepository = memberRepository;
         this.discountPolicy = discountPolicy;
     }
