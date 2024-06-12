@@ -1,10 +1,8 @@
 package com.example.springbootac.order;
 
 import com.example.springbootac.AppConfig;
-import com.example.springbootac.member.Grade;
-import com.example.springbootac.member.Member;
-import com.example.springbootac.member.MemberService;
-import com.example.springbootac.member.MemberServiceImpl;
+import com.example.springbootac.discount.FixDiscountPolicy;
+import com.example.springbootac.member.*;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -28,5 +26,14 @@ public class OrderServiceTest {
 
         Order order = orderService.createOrder(memberId, "itemA", 10000 );
         Assertions.assertThat(order.getDiscountPrice()).isEqualTo(1000);
+    }
+
+    @Test
+    void fieldInjectionTest() {
+        OrderServiceImpl orderService1 = new OrderServiceImpl();
+         orderService1.setMemberRepository(new MemoryMemberRepository());
+        orderService1.setDiscountPolicy(new FixDiscountPolicy());
+
+        orderService1.createOrder(1L, "itemA", 10000);
     }
 }
