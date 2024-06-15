@@ -1,5 +1,6 @@
 package com.example.springbootac.discount;
 
+import com.example.springbootac.annotation.MainDiscountPolicy;
 import com.example.springbootac.member.Grade;
 import com.example.springbootac.member.Member;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -7,7 +8,8 @@ import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Component;
 
 @Component
-@Primary
+//@Primary
+@MainDiscountPolicy
 public class  RateDiscountPolicy implements DiscountPolicy {
     private int discountPercent = 10;
 

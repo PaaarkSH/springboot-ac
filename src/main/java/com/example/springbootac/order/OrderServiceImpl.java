@@ -1,6 +1,7 @@
 package com.example.springbootac.order;
 
 
+import com.example.springbootac.annotation.MainDiscountPolicy;
 import com.example.springbootac.discount.DiscountPolicy;
 import com.example.springbootac.member.Member;
 import com.example.springbootac.member.MemberRepository;
@@ -14,7 +15,10 @@ public class OrderServiceImpl implements OrderService{
     private final MemberRepository memberRepository;
     private final DiscountPolicy discountPolicy;
 
-    public OrderServiceImpl(MemberRepository memberRepository, DiscountPolicy discountPolicy) {
+    public OrderServiceImpl(
+            MemberRepository memberRepository,
+            @MainDiscountPolicy DiscountPolicy discountPolicy
+    ) {
         this.memberRepository = memberRepository;
         this.discountPolicy = discountPolicy;
     }
