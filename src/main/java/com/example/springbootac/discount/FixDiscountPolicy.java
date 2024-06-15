@@ -2,6 +2,7 @@ package com.example.springbootac.discount;
 
 import com.example.springbootac.member.Grade;
 import com.example.springbootac.member.Member;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
 @Component

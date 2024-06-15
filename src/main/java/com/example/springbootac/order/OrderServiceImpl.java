@@ -5,6 +5,7 @@ import com.example.springbootac.discount.DiscountPolicy;
 import com.example.springbootac.member.Member;
 import com.example.springbootac.member.MemberRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
 @Component

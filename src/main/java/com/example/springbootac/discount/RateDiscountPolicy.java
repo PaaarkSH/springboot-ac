@@ -2,10 +2,13 @@ package com.example.springbootac.discount;
 
 import com.example.springbootac.member.Grade;
 import com.example.springbootac.member.Member;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Component;
 
 @Component
-public class RateDiscountPolicy implements DiscountPolicy {
+@Primary
+public class  RateDiscountPolicy implements DiscountPolicy {
     private int discountPercent = 10;
 
     @Override
