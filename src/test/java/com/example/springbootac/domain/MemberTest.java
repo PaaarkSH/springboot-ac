@@ -11,4 +11,51 @@ class MemberTest {
         assertThat(member.getStatus()).isEqualTo(MemberStatus.PENDING);
     }
 
+    @Test
+    void constructorNullCheck(){
+        //given
+        assertThatThrownBy(() -> new Member(null, null, null))
+                .isInstanceOf(NullPointerException.class);
+        //when
+
+        //then
+    }
+
+    @Test
+    void activate (){
+        //given
+        Member member = new Member("test@test.com", "nick", "secret");
+
+        //when
+        member.activate();
+        //then
+        assertThat(member.getStatus()).isEqualTo(MemberStatus.ACTIVE);
+    }
+
+    @Test
+    void activateFail () {
+        //given
+        Member member = new Member("test@test.com", "nick", "secret");
+
+        //when
+        member.activate();
+
+        //then
+        assertThatThrownBy(() -> {
+
+        }).isInstanceOf(IllegalStateException.class);
+    }
+    @Test
+    void deactivated () throws Exception{
+
+        //given
+        Member member = new Member("test@test.com", "nick", "secret");
+        member.activate();
+
+        //when
+        member.deactivate();
+
+        //then
+        assertThat(member.getStatus()).isEqualTo(MemberStatus.DEACTIVATED);
+    }
 }
