@@ -2,6 +2,8 @@ plugins {
     java
     id("org.springframework.boot") version "3.4.3"
     id("io.spring.dependency-management") version "1.1.0"
+    // 컴파일시 에러나지 않는 에러 탐색
+    id("com.github.spotbugs") version "6.2.1"
 }
 
 group = "com.example"
