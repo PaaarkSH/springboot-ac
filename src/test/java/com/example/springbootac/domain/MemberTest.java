@@ -1,30 +1,40 @@
 package com.example.springbootac.domain;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import static org.assertj.core.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.*;
 
 class MemberTest {
+    Member member;
+    PasswordEncoder passwordEncoder;
+
+    @BeforeEach
+    void setUp() {
+        this.passwordEncoder = new PasswordEncoder() {
+            @Override
+            public String encode(String password) {
+                return password.toUpperCase();
+            }
+            @Override
+            public boolean matches(String password, String encodedPassword) {
+                return encode(password).equals(encodedPassword);
+            }
+        };
+
+        member = Member.create("test@test.com", "nick", "secret", passwordEncoder);
+    }
+
     @Test
     void createMember() {
-        Member member = new Member("test@test.com", "nick", "secret");
         assertThat(member.getStatus()).isEqualTo(MemberStatus.PENDING);
     }
 
-    @Test
-    void constructorNullCheck(){
-        //given
-        assertThatThrownBy(() -> new Member(null, null, null))
-                .isInstanceOf(NullPointerException.class);
-        //when
-
-        //then
-    }
+    // spotbug 사용하면 되니까 null check 제거
 
     @Test
     void activate (){
         //given
-        Member member = new Member("test@test.com", "nick", "secret");
 
         //when
         member.activate();
@@ -35,7 +45,6 @@ class MemberTest {
     @Test
     void activateFail () {
         //given
-        Member member = new Member("test@test.com", "nick", "secret");
 
         //when
         member.activate();
@@ -49,7 +58,6 @@ class MemberTest {
     void deactivated () throws Exception{
 
         //given
-        Member member = new Member("test@test.com", "nick", "secret");
         member.activate();
 
         //when
@@ -57,5 +65,24 @@ class MemberTest {
 
         //then
         assertThat(member.getStatus()).isEqualTo(MemberStatus.DEACTIVATED);
+    }
+
+    @Test
+    void verifyPassword () {
+        assertThat(member.verifyPassword("secret", passwordEncoder)).isTrue();
+        assertThat(member.verifyPassword("secret123", passwordEncoder)).isFalse() ;
+    }
+
+    @Test
+    void changeNickname () {
+        assertThat(member.getNickname()).isEqualTo("nick");
+        member.changeNickname("charlie");
+        assertThat(member.getNickname()).isEqualTo("charlie");
+    }
+
+    @Test
+    void changePassword() {
+        member.changePassword("verySecret", passwordEncoder);
+        assertThat(member.verifyPassword("verySecret", passwordEncoder)).isTrue();
     }
 }

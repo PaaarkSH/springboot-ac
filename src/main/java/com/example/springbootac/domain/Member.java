@@ -22,8 +22,8 @@ public class Member {
         this.status = MemberStatus.PENDING;
     }
 
-    public static Member create(String email, String nickname, String passwordHash) {
-        return new Member(email, nickname, passwordHash);
+    public static Member create(String email, String nickname, String passwordHash, PasswordEncoder passwordEncoder) {
+        return new Member(email, nickname, passwordEncoder.encode(passwordHash));
     }
 
 
@@ -38,5 +38,17 @@ public class Member {
         
         this.status = MemberStatus.DEACTIVATED;
         
+    }
+
+    public boolean verifyPassword(String password, PasswordEncoder passwordEncoder) {
+        return passwordEncoder.matches(password, this.passwordHash);
+    }
+
+    public void changeNickname(String nickname) {
+        this.nickname = nickname;
+    }
+
+    public void changePassword(String password, PasswordEncoder passwordEncoder) {
+        this.passwordHash = passwordEncoder.encode(password);
     }
 }
