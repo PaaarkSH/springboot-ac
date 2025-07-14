@@ -85,4 +85,13 @@ class MemberTest {
         member.changePassword("verySecret", passwordEncoder);
         assertThat(member.verifyPassword("verySecret", passwordEncoder)).isTrue();
     }
+
+    @Test
+    void shouldBeActive() {
+        assertThat(member.isActive()).isFalse();
+        member.activate();
+        assertThat(member.isActive()).isTrue();
+        member.deactivate();
+        assertThat(member.isActive()).isFalse();
+    }
 }

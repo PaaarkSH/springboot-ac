@@ -1,5 +1,6 @@
 package com.example.springbootac.domain;
 
+import lombok.Builder;
 import lombok.Getter;
 import lombok.ToString;
 
@@ -15,6 +16,7 @@ public class Member {
     private String passwordHash;
     private MemberStatus status;
 
+    @Builder
     private Member(String email, String nickname, String passwordHash) {
         this.email = Objects.requireNonNull(email);
         this.nickname = Objects.requireNonNull(nickname);
@@ -22,7 +24,7 @@ public class Member {
         this.status = MemberStatus.PENDING;
     }
 
-    public static Member create(String email, String nickname, String passwordHash, PasswordEncoder passwordEncoder) {
+    public static Member create(MemberCreateRequest createRequest, PasswordEncoder passwordEncoder) {
         return new Member(email, nickname, passwordEncoder.encode(passwordHash));
     }
 
@@ -45,10 +47,14 @@ public class Member {
     }
 
     public void changeNickname(String nickname) {
-        this.nickname = nickname;
+        this.nickname = Objects.requireNonNull(nickname);
     }
 
     public void changePassword(String password, PasswordEncoder passwordEncoder) {
-        this.passwordHash = passwordEncoder.encode(password);
+        this.passwordHash = passwordEncoder.encode(Objects.requireNonNull(password));
+    }
+
+    public boolean isActive() {
+        return this.status == MemberStatus.ACTIVE;
     }
 }
