@@ -16,16 +16,15 @@ public class Member {
     private String passwordHash;
     private MemberStatus status;
 
-    @Builder
-    private Member(String email, String nickname, String passwordHash) {
-        this.email = Objects.requireNonNull(email);
-        this.nickname = Objects.requireNonNull(nickname);
-        this.passwordHash = Objects.requireNonNull(passwordHash);
-        this.status = MemberStatus.PENDING;
-    }
+    private Member() {}
 
     public static Member create(MemberCreateRequest createRequest, PasswordEncoder passwordEncoder) {
-        return new Member(email, nickname, passwordEncoder.encode(passwordHash));
+        Member member = new Member();
+        member.email = Objects.requireNonNull(createRequest.email());
+        member.nickname = Objects.requireNonNull(createRequest.nickname());
+        member.passwordHash = Objects.requireNonNull(passwordEncoder.encode(createRequest.password()));
+        member.status = MemberStatus.PENDING;
+        return member;
     }
 
 

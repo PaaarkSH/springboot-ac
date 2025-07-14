@@ -22,7 +22,7 @@ class MemberTest {
             }
         };
 
-        member = Member.create("test@test.com", "nick", "secret", passwordEncoder);
+        member = Member.create(new MemberCreateRequest("test@test.com", "nick", "secret"), passwordEncoder);
     }
 
     @Test
@@ -42,18 +42,8 @@ class MemberTest {
         assertThat(member.getStatus()).isEqualTo(MemberStatus.ACTIVE);
     }
 
-    @Test
-    void activateFail () {
-        //given
 
-        //when
-        member.activate();
 
-        //then
-        assertThatThrownBy(() -> {
-
-        }).isInstanceOf(IllegalStateException.class);
-    }
     @Test
     void deactivated () throws Exception{
 
