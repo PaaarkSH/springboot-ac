@@ -3,7 +3,6 @@ package com.example.springbootac.domain;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import static org.assertj.core.api.Assertions.*;
-import static org.junit.jupiter.api.Assertions.*;
 
 class MemberTest {
     Member member;
@@ -83,5 +82,18 @@ class MemberTest {
         assertThat(member.isActive()).isTrue();
         member.deactivate();
         assertThat(member.isActive()).isFalse();
+    }
+    @Test
+    void invalidEmail () {
+        //given
+
+        //when
+        assertThatThrownBy(
+                () -> Member.create(new MemberCreateRequest("invalid", "nick", "secret"), passwordEncoder)
+        ).isInstanceOf(IllegalArgumentException.class);
+
+        Member.create(new MemberCreateRequest("test@google.com", "nick", "secret"), passwordEncoder);
+
+        //then
     }
 }
