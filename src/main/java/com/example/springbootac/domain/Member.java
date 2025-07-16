@@ -1,25 +1,35 @@
 package com.example.springbootac.domain;
 
-import lombok.Builder;
+import jakarta.persistence.Embedded;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Enumerated;
+import jakarta.persistence.Id;
+import lombok.AccessLevel;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.ToString;
 
 import static org.springframework.util.Assert.*;
 
 import java.util.Objects;
-import java.util.regex.Pattern;
 
+@Entity
 @Getter
 @ToString
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Member {
+
+    @Id
+    private long id;
+
+    @Embedded
     private Email email;
     private String nickname;
     private String passwordHash;
+    @Enumerated
     private MemberStatus status;
 
-    private Member() {}
-
-    public static Member create(MemberCreateRequest createRequest, PasswordEncoder passwordEncoder) {
+    public static Member register(MemberRegisterRequest createRequest, PasswordEncoder passwordEncoder) {
         Member member = new Member();
 
         member.email = new Email(createRequest.email());
