@@ -5,6 +5,8 @@ import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
+import org.hibernate.annotations.NaturalId;
+import org.hibernate.annotations.NaturalIdCache;
 
 import static org.springframework.util.Assert.*;
 
@@ -14,12 +16,14 @@ import java.util.Objects;
 @Getter
 @ToString
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+@NaturalIdCache
 public class Member {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
     @Embedded
+    @NaturalId
     private Email email;
     private String nickname;
     private String passwordHash;
