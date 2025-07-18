@@ -3,9 +3,7 @@ package com.example.springbootac.application;
 import com.example.springbootac.application.provided.MemberRegister;
 import com.example.springbootac.application.required.EmailSender;
 import com.example.springbootac.application.required.MemberRespository;
-import com.example.springbootac.domain.Member;
-import com.example.springbootac.domain.MemberRegisterRequest;
-import com.example.springbootac.domain.PasswordEncoder;
+import com.example.springbootac.domain.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -19,10 +17,23 @@ public class MemberService implements MemberRegister {
     @Override
     public Member register(MemberRegisterRequest request) {
         // check
+        checkDuplicateEmail(request);
+
         Member member = Member.register(request, passwordEncoder);
         memberRespository.save(member);
-        emailSender.send(member.getEmail(), "등록을 완료해 주세요", "아래 링크를 통해 등록 완료해 주세요");
+
+        sendWelcomEmail(member);
 
         return member;
+    }
+
+    private void sendWelcomEmail(Member member) {
+        emailSender.send(member.getEmail(), "등록을 완료해 주세요", "아래 링크를 통해 등록 완료해 주세요");
+    }
+
+    private void checkDuplicateEmail(MemberRegisterRequest request) {
+        if (memberRespository.findByEmail(new Email(request.email())).isPresent()) {
+            throw new DuplicateEmailException("이미 사용중인 이메일 입니다: " + request.email());
+        }
     }
 }
