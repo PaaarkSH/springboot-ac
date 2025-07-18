@@ -29,6 +29,13 @@ public class MemberService implements MemberRegister {
         return member;
     }
 
+    @Override
+    public Member activate(Long memberId) {
+        Member member = memberRespository.findById(memberId).orElseThrow(() -> new IllegalArgumentException("회원을 찾을 수 없습니다 id: " + memberId));
+        member.activate();
+        return memberRespository.save(member);
+    }
+
     private void sendWelcomEmail(Member member) {
         emailSender.send(member.getEmail(), "등록을 완료해 주세요", "아래 링크를 통해 등록 완료해 주세요");
     }
