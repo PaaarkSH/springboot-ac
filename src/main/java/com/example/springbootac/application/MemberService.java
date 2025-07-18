@@ -4,10 +4,12 @@ import com.example.springbootac.application.provided.MemberRegister;
 import com.example.springbootac.application.required.EmailSender;
 import com.example.springbootac.application.required.MemberRespository;
 import com.example.springbootac.domain.*;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 @Service
+@Transactional
 @RequiredArgsConstructor
 public class MemberService implements MemberRegister {
     private final MemberRespository memberRespository;
