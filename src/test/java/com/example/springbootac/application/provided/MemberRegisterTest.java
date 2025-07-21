@@ -2,6 +2,7 @@ package com.example.springbootac.application.provided;
 
 import com.example.springbootac.SplearnTestConfiguration;
 import com.example.springbootac.domain.*;
+import jakarta.persistence.EntityManager;
 import jakarta.validation.ConstraintViolationException;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -17,7 +18,7 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 @Transactional
 @Validated
 @Import(SplearnTestConfiguration.class)
-public record MemberRegisterTest(MemberRegister memberRegister) {
+public record MemberRegisterTest(MemberRegister memberRegister, EntityManager em) {
 
     @Test
     void register() {
@@ -32,6 +33,16 @@ public record MemberRegisterTest(MemberRegister memberRegister) {
         Member member = memberRegister.register(MemberFixture.createMemberRegisterRequest());
         assertThatThrownBy(() -> memberRegister.register(MemberFixture.createMemberRegisterRequest()))
                 .isInstanceOf(DuplicateEmailException.class);
+    }
+
+    @Test
+    void activate() {
+        Member member = memberRegister.register(MemberFixture.createMemberRegisterRequest());
+        em.flush();
+        em.clear();
+        member = memberRegister.activate(member.getId());
+        assertThat(member.getStatus()).isEqualTo(MemberStatus.ACTIVE);
+
     }
 
     @Test

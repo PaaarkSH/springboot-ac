@@ -1,5 +1,6 @@
 package com.example.springbootac.application;
 
+import com.example.springbootac.application.provided.MemberFinder;
 import com.example.springbootac.application.provided.MemberRegister;
 import com.example.springbootac.application.required.EmailSender;
 import com.example.springbootac.application.required.MemberRespository;
@@ -7,11 +8,14 @@ import com.example.springbootac.domain.*;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.validation.annotation.Validated;
 
 @Service
 @Transactional
+@Validated
 @RequiredArgsConstructor
-public class MemberService implements MemberRegister {
+public class MemberModifyService implements MemberRegister {
+    private final MemberFinder memberFinder;
     private final MemberRespository memberRespository;
     private final EmailSender emailSender;
     private final PasswordEncoder passwordEncoder;
@@ -31,7 +35,7 @@ public class MemberService implements MemberRegister {
 
     @Override
     public Member activate(Long memberId) {
-        Member member = memberRespository.findById(memberId).orElseThrow(() -> new IllegalArgumentException("회원을 찾을 수 없습니다 id: " + memberId));
+        Member member = memberFinder.find(memberId);
         member.activate();
         return memberRespository.save(member);
     }
@@ -45,4 +49,6 @@ public class MemberService implements MemberRegister {
             throw new DuplicateEmailException("이미 사용중인 이메일 입니다: " + request.email());
         }
     }
+
+
 }
