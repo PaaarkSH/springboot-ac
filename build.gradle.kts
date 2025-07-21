@@ -17,6 +17,8 @@ repositories {
     mavenCentral()
 }
 
+var mockitoAgent: Configuration = configurations.create()
+
 dependencies {
     implementation("org.springframework.boot:spring-boot-starter-data-jpa")
     implementation("org.springframework.boot:spring-boot-starter-web")
@@ -28,6 +30,8 @@ dependencies {
     annotationProcessor("org.projectlombok:lombok")
     testImplementation("org.springframework.boot:spring-boot-starter-test")
     testRuntimeOnly("org.junit.platform:junit-platform-launcher")
+    implementation("org.junit-pioneer:junit-pioneer:2.3.0")
+    mockitoAgent("org.mockito:mockito-agent:5.18.0") { isTransitive = false}
 }
 
 tasks.test {

@@ -8,9 +8,9 @@ import lombok.ToString;
 import org.hibernate.annotations.NaturalId;
 import org.hibernate.annotations.NaturalIdCache;
 
-import static org.springframework.util.Assert.*;
-
 import java.util.Objects;
+
+import static org.springframework.util.Assert.state;
 
 @Entity
 @Getter
