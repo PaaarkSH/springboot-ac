@@ -13,11 +13,18 @@ java {
     sourceCompatibility = JavaVersion.VERSION_21
 }
 
+configurations {
+    compileOnly {
+        extendsFrom(configurations.annotationProcessor.get())
+    }
+}
+
 repositories {
     mavenCentral()
 }
 
-var mockitoAgent: Configuration = configurations.create()
+var mockitoAgent: Configuration = configurations.create("mockitoAgent")
+
 
 dependencies {
     implementation("org.springframework.boot:spring-boot-starter-data-jpa")
@@ -34,6 +41,7 @@ dependencies {
     mockitoAgent("org.mockito:mockito-agent:5.18.0") { isTransitive = false}
 }
 
-tasks.test {
+tasks.withType<Test> {
     useJUnitPlatform()
+    jvmArgs("-javaagent:${mockitoAgent.asPath}")
 }
